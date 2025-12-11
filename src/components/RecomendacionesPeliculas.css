@@ -1,0 +1,182 @@
+/* RecomendacionesPeliculas.css */
+.recomendaciones-container {
+  width: 100%;
+}
+
+.recomendaciones-header {
+  margin-bottom: 1.5rem;
+}
+
+.recomendaciones-header h2 {
+  margin-bottom: 1rem;
+}
+
+.filtros-recomendacion {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filtro, .filtro-activo {
+  padding: 0.6em 1.2em;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.filtro {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+.filtro:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-primary);
+}
+
+.filtro-activo {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.loading, .no-recomendaciones {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-text-muted);
+}
+
+.no-recomendaciones p {
+  font-size: 1.1em;
+  margin: 0.5rem 0;
+}
+
+.sugerencia {
+  font-size: 0.95em;
+  color: var(--color-text-secondary);
+}
+
+.recomendaciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.pelicula-card {
+  background: var(--color-bg-card);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.pelicula-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.15);
+  border-color: var(--color-primary);
+}
+
+.pelicula-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.pelicula-card-header h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--color-text-secondary);
+  flex: 1;
+}
+
+.year-badge {
+  background: var(--gradient-secondary);
+  color: var(--color-text-secondary);
+  padding: 0.3em 0.7em;
+  border-radius: 8px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pelicula-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.generos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.genero-tag {
+  background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+  color: var(--color-text-secondary);
+  padding: 0.3em 0.7em;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.duracion {
+  color: var(--color-text-muted);
+  font-size: 0.95em;
+  margin: 0;
+}
+
+.estrellas {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.estrella-llena {
+  color: #fbbf24;
+  font-size: 1em;
+}
+
+.estrella-vacia {
+  color: #e5e7eb;
+  font-size: 1em;
+}
+
+.rating-numero {
+  margin-left: 0.5rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-size: 0.95em;
+}
+
+.match-info, .total-ratings {
+  color: var(--color-text-primary);
+  font-size: 0.9em;
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  background: var(--color-bg-hover);
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .recomendaciones-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .filtros-recomendacion {
+    flex-direction: column;
+  }
+  
+  .filtro, .filtro-activo {
+    width: 100%;
+  }
+}

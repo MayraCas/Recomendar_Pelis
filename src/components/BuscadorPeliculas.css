@@ -1,0 +1,122 @@
+/* BuscadorPeliculas.css */
+.buscador-container {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.buscador-label {
+  display: block;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.5rem;
+  font-size: 1.05em;
+}
+
+.buscador-input {
+  width: 100%;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  transition: all 0.3s ease;
+}
+
+.buscador-input:focus {
+  outline: none;
+  border-color: var(--color-primary-dark);
+  box-shadow: 0 0 0 3px rgba(165, 180, 252, 0.2);
+}
+
+.buscador-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+.sugerencias-lista {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 2px solid var(--color-primary);
+  background: var(--color-bg-secondary);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px var(--color-shadow);
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+  z-index: 1000;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.sugerencia-item {
+  padding: 0;
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.2s ease;
+}
+
+.sugerencia-item:last-child {
+  border-bottom: none;
+}
+
+.sugerencia-item:hover {
+  background: var(--color-bg-hover);
+}
+
+.sugerencia-content {
+  padding: 1rem;
+}
+
+.sugerencia-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.sugerencia-title strong {
+  color: var(--color-text-secondary);
+  font-size: 1em;
+}
+
+.sugerencia-year {
+  background: var(--gradient-secondary);
+  color: var(--color-text-secondary);
+  padding: 0.2em 0.6em;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.sugerencia-details {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.duracion-badge, .genero-badge {
+  padding: 0.2em 0.6em;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.duracion-badge {
+  background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+  color: var(--color-text-primary);
+}
+
+.genero-badge {
+  background: linear-gradient(135deg, #e9d5ff 0%, #f3e8ff 100%);
+  color: var(--color-text-secondary);
+}
+
+.buscador-loading {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}

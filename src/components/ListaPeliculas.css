@@ -1,0 +1,138 @@
+/* ListaPeliculas.css */
+.lista-peliculas-container {
+  width: 100%;
+}
+
+.lista-peliculas-container h2 {
+  margin-bottom: 1.5rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-muted);
+  font-size: 1.1em;
+}
+
+.peliculas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.movie-card {
+  background: var(--color-bg-card);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.15);
+  border-color: var(--color-primary);
+}
+
+.movie-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.movie-card-header h3 {
+  margin: 0;
+  font-size: 1.15em;
+  color: var(--color-text-secondary);
+  flex: 1;
+  line-height: 1.3;
+}
+
+.year-badge {
+  background: var(--gradient-secondary);
+  color: var(--color-text-secondary);
+  padding: 0.3em 0.7em;
+  border-radius: 8px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.movie-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.generos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.genero-tag {
+  background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+  color: var(--color-text-secondary);
+  padding: 0.3em 0.7em;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.duracion {
+  color: var(--color-text-muted);
+  font-size: 0.95em;
+  margin: 0;
+}
+
+.rating-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.estrellas {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.estrella-llena {
+  color: #fbbf24;
+  font-size: 1em;
+}
+
+.estrella-vacia {
+  color: #e5e7eb;
+  font-size: 1em;
+}
+
+.rating-numero {
+  margin-left: 0.5rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-size: 0.95em;
+}
+
+.sin-rating {
+  color: var(--color-text-muted);
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.total-ratings {
+  color: var(--color-text-primary);
+  font-size: 0.85em;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .peliculas-grid {
+    grid-template-columns: 1fr;
+  }
+}

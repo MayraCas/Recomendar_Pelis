@@ -1,18 +1,25 @@
 // src/components/CalificarPelicula.jsx
 import React, { useState } from 'react';
 import { runQuery } from '../neo4j';
-import BuscadorPeliculas from './BuscadorPeliculas'; // <--- Importamos
+import BuscadorPeliculas from './BuscadorPeliculas';
+import './CalificarPelicula.css';
 
-const CalificarPelicula = () => {
-  const [usuario, setUsuario] = useState('Juan');
-  const [peliculaSeleccionada, setPeliculaSeleccionada] = useState(''); // Estado para la selección
-  const [rating, setRating] = useState(5);
+const CalificarPelicula = ({ usuario, onCalificacionGuardada }) => {
+  const [peliculaSeleccionada, setPeliculaSeleccionada] = useState('');
+  const [rating, setRating] = useState(0);
+  const [ratingHover, setRatingHover] = useState(0);
+  const [mensaje, setMensaje] = useState('');
 
   const handleCalificar = async (e) => {
     e.preventDefault();
 
     if (!peliculaSeleccionada) {
-      alert("Por favor selecciona una película del buscador");
+      setMensaje({ tipo: 'error', texto: 'Por favor selecciona una película del buscador' });
+      return;
+    }
+    
+    if (rating === 0) {
+      setMensaje({ tipo: 'error', texto: 'Por favor selecciona una calificación' });
       return;
     }
     
@@ -30,42 +37,84 @@ const CalificarPelicula = () => {
         pelicula: peliculaSeleccionada, 
         rating: parseInt(rating) 
       });
-      alert(`¡Guardado! ${usuario} calificó ${peliculaSeleccionada} con ${rating} estrellas.`);
+      setMensaje({ 
+        tipo: 'exito', 
+        texto: `¡Guardado! Has calificado "${peliculaSeleccionada}" con ${rating} estrellas.` 
+      });
+      
+      // Limpiar formulario
+      setPeliculaSeleccionada('');
+      setRating(0);
+      
+      // Notificar al componente padre si existe el callback
+      if (onCalificacionGuardada) {
+        onCalificacionGuardada();
+      }
     } catch (error) {
       console.error(error);
-      alert("Error guardando el rating.");
+      setMensaje({ tipo: 'error', texto: 'Error guardando la calificación.' });
     }
   };
 
+  const renderEstrellas = () => {
+    return (
+      <div className="rating-estrellas">
+        {[1, 2, 3, 4, 5].map((estrella) => (
+          <button
+            key={estrella}
+            type="button"
+            className={`estrella-btn ${
+              estrella <= (ratingHover || rating) ? 'estrella-activa' : ''
+            }`}
+            onClick={() => setRating(estrella)}
+            onMouseEnter={() => setRatingHover(estrella)}
+            onMouseLeave={() => setRatingHover(0)}
+          >
+            ⭐
+          </button>
+        ))}
+        {rating > 0 && (
+          <span className="rating-texto">{rating}/5</span>
+        )}
+      </div>
+    );
+  };
+
   return (
-    <div style={{ marginTop: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
+    <div className="calificar-container">
       <h3>⭐ Calificar Película</h3>
       
-      {/* 1. Selección de Usuario (Simple) */}
-      <div style={{ marginBottom: '10px' }}>
-        <label>Usuario: </label>
-        <input value={usuario} onChange={e => setUsuario(e.target.value)} />
-      </div>
-
-      {/* 2. Búsqueda de Película (Componente nuevo) */}
-      <BuscadorPeliculas onSeleccionar={(titulo) => setPeliculaSeleccionada(titulo)} />
-      
-      {peliculaSeleccionada && (
-        <p style={{color: 'green'}}>Película seleccionada: <strong>{peliculaSeleccionada}</strong></p>
-      )}
-
-      {/* 3. Rating */}
-      <div style={{ marginBottom: '10px' }}>
-        <label>Rating (1-5): </label>
-        <input 
-          type="number" min="1" max="5" 
-          value={rating} onChange={e => setRating(e.target.value)} 
+      <form onSubmit={handleCalificar} className="calificar-form">
+        {/* Búsqueda de Película */}
+        <BuscadorPeliculas 
+          onSeleccionar={(titulo) => {
+            setPeliculaSeleccionada(titulo);
+            setMensaje('');
+          }} 
         />
-      </div>
+        
+        {peliculaSeleccionada && (
+          <div className="pelicula-seleccionada">
+            ✓ Película: <strong>{peliculaSeleccionada}</strong>
+          </div>
+        )}
 
-      <button onClick={handleCalificar} style={{ padding: '10px 20px', cursor: 'pointer' }}>
-        Enviar Calificación
-      </button>
+        {/* Rating con estrellas */}
+        <div className="rating-section">
+          <label>Tu calificación:</label>
+          {renderEstrellas()}
+        </div>
+
+        <button type="submit" className="btn-calificar">
+          💾 Guardar Calificación
+        </button>
+
+        {mensaje && (
+          <div className={`mensaje mensaje-${mensaje.tipo}`}>
+            {mensaje.texto}
+          </div>
+        )}
+      </form>
     </div>
   );
 };

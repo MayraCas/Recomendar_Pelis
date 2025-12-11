@@ -1,6 +1,7 @@
 // src/components/BuscadorPeliculas.jsx
 import React, { useState, useEffect } from 'react';
 import { runQuery } from '../neo4j';
+import './BuscadorPeliculas.css';
 
 const BuscadorPeliculas = ({ onSeleccionar }) => {
   const [termino, setTermino] = useState('');
@@ -22,16 +23,25 @@ const BuscadorPeliculas = ({ onSeleccionar }) => {
       const cypher = `
         MATCH (p:Pelicula)
         WHERE toLower(p.titulo) CONTAINS toLower($search)
-        RETURN p.titulo as titulo, p.año as anio
+        OPTIONAL MATCH (p)-[:PERTENECE_A]->(g:Genero)
+        WITH p, COLLECT(DISTINCT g.nombre) as generos
+        RETURN p.titulo as titulo, p.year as year, p.duracion as duracion, generos
         LIMIT 5
       `;
 
       try {
         const records = await runQuery(cypher, { search: termino });
-        const resultados = records.map(record => ({
-          titulo: record.get('titulo'),
-          anio: record.get('anio').toNumber()
-        }));
+        const resultados = records.map(record => {
+          const yearValue = record.get('year');
+          const duracionValue = record.get('duracion');
+          
+          return {
+            titulo: record.get('titulo'),
+            year: typeof yearValue === 'object' && yearValue.toNumber ? yearValue.toNumber() : yearValue,
+            duracion: typeof duracionValue === 'object' && duracionValue.toNumber ? duracionValue.toNumber() : duracionValue,
+            generos: record.get('generos')
+          };
+        });
         setSugerencias(resultados);
       } catch (error) {
         console.error("Error buscando:", error);
@@ -55,42 +65,45 @@ const BuscadorPeliculas = ({ onSeleccionar }) => {
   };
 
   return (
-    <div style={{ position: 'relative', marginBottom: '15px' }}>
-      <label>Buscar Película:</label>
+    <div className="buscador-container">
+      <label htmlFor="search-input" className="buscador-label">
+        🔍 Buscar Película:
+      </label>
       <input
+        id="search-input"
         type="text"
         value={termino}
         onChange={(e) => setTermino(e.target.value)}
-        placeholder="Escribe para buscar (ej. Toy...)"
-        style={{ width: '100%', padding: '8px' }}
+        placeholder="Escribe para buscar (ej. Matrix, Toy...)"
+        className="buscador-input"
       />
       
       {/* Lista de sugerencias flotante */}
       {sugerencias.length > 0 && (
-        <ul style={{
-          position: 'absolute',
-          top: '100%',
-          left: 0,
-          right: 0,
-          border: '1px solid #ccc',
-          background: '#fff',
-          listStyle: 'none',
-          padding: 0,
-          margin: 0,
-          zIndex: 1000
-        }}>
+        <ul className="sugerencias-lista">
           {sugerencias.map((p, idx) => (
             <li 
               key={idx} 
               onClick={() => manejarSeleccion(p)}
-              style={{ padding: '10px', cursor: 'pointer', borderBottom: '1px solid #eee' }}
+              className="sugerencia-item"
             >
-              <strong>{p.titulo}</strong> ({p.anio})
+              <div className="sugerencia-content">
+                <div className="sugerencia-title">
+                  <strong>{p.titulo}</strong>
+                  <span className="sugerencia-year">{p.year}</span>
+                </div>
+                <div className="sugerencia-details">
+                  <span className="duracion-badge">⏱️ {p.duracion} min</span>
+                  {p.generos.length > 0 && (
+                    <span className="genero-badge">{p.generos[0]}</span>
+                  )}
+                </div>
+              </div>
             </li>
           ))}
         </ul>
       )}
-      {cargando && <small>Buscando...</small>}
+      {cargando && <small className="buscador-loading">Buscando...</small>}
     </div>
   );
 };
