@@ -1,17 +1,66 @@
-# React + Vite
+# React + Vite + Neo4j
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este README describe los requisitos, la instalación de Neo4j y cómo ejecutar una aplicación React que se conecte a Neo4j.
 
-Currently, two official plugins are available:
+## Requisitos del entorno
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Software necesario: 
+- Node.js v18 o superior
+- npm o yarn
+- Neo4j (Community o Enterprise)
+- Navegador web moderno
 
-## React Compiler
+### Conocimientos recomendados
+- JavaScript / React
+- Conceptos básicos de bases de datos de grafos
+- Uso de terminal
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Instalación de Neo4j en Ubuntu
 
-## Expanding the ESLint configuration
+- Importar la clave GPG de Neo4j:
+wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Agregar el repositorio: 
+echo 'deb https://debian.neo4j.com stable latest' | sudo tee /etc/apt/sources.list.d/neo4j.list
+
+- Actualizar la lista de paquetes: 
+sudo apt update
+
+- Instalar Neo4j Community Edition: 
+sudo apt install neo4j
+
+- O si se necesita la versión Enterprise: 
+sudo apt install neo4j-enterprise
+
+- Iniciar Neo4j: 
+sudo systemctl start neo4j
+
+- Habilitar inicio automático: 
+sudo systemctl enable neo4j
+
+- Verificar el estado: 
+sudo systemctl status neo4j
+
+- Abriri el navegador y acceder a: 
+http://localhost:7474
+
+- Usuario por defecto: neo4j
+- Contraseña por defecto: neo4j (pedirá cambiarla en el primer login)
+
+## Configuración de la conexión a Neo4j
+- Instalar el driver oficial:
+npm install neo4j-driver
+
+- Cambiar las credenciales en la conexión a la BDG
+
+## Ejecución de la aplicación React
+- Instalar dependencias:
+npm install
+
+- Ejecutar el proyecto:
+npm start
+
+- La aplicación se ejecutará en:
+http://localhost:3000
+
 # Recomendar_Pelis
